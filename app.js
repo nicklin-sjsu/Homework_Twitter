@@ -40,46 +40,49 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Create a tweet
-app.post('/create', (req, res) => {
-    const message = req.body;
+app.get('/create', (req, res) => {
+    let message = req.query.message;
+    console.log(message);
     client.v2.tweet(message).then((val) => {
         console.log(val);
         console.log("success");
+        res.send('Tweet has been added');
     }).catch((err) => {
         console.log(err);
+        res.send(err);
     });
-
-    res.send('Tweet has been added');
 });
 
 // Retrieve a tweet
-app.post('/retrieve', (req, res) => {
-    const tweetId = req.body;
+app.get('/retrieve', (req, res) => {
+    const tweetId = req.query.tweetId;
     client.v2.singleTweet(tweetId, {
         'tweet.fields': [
             'public_metrics',
         ],
     }).then((val) => {
-        const tweetBody = val;
+        const tweetBody = val.data.text;
         console.log(val);
+        res.send(tweetBody);
     }).catch((err) => {
         console.log(err);
+        res.send(err);
     });
-
-    res.send(val);
 });
 
 // Delete a tweet
-app.post('/delete', (req, res) => {
-    const tweetId = req.body;
+app.get('/delete', (req, res) => {
+    const tweetId = req.query.tweetId;
     client.v2.tweet(tweetId).then((val) => {
         console.log(val);
         console.log("success");
+        res.send('Tweet has been deleted');
     }).catch((err) => {
         console.log(err);
+        res.send(err);
     });
 
-    res.send('Tweet has been deleted');
+    
 });
 
 
