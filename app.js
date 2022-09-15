@@ -46,27 +46,23 @@ app.get('/create', (req, res) => {
     client.v2.tweet(message).then((val) => {
         console.log(val);
         console.log("success");
-        res.send(200, { 'message': 'Tweet created successfully'} );
+        res.send({ 'code': 200, 'message': 'Tweet created successfully'} );
     }).catch((err) => {
         console.log(err);
-        res.send(400, { 'message': err });
+        res.send({ 'code': 400, 'message': err });
     });
 });
 
 // Retrieve a tweet
 app.get('/retrieve', (req, res) => {
     const tweetId = req.query.tweetId;
-    client.v2.singleTweet(tweetId, {
-        'tweet.fields': [
-            'public_metrics',
-        ],
-    }).then((val) => {
+    client.v2.singleTweet(tweetId).then((val) => {
         const tweetBody = val.data.text;
         console.log(val);
-        res.send(200, { 'message': tweetBody });
+        res.send({ 'code': 200, 'message': tweetBody });
     }).catch((err) => {
         console.log(err);
-        res.send(400, { 'message': err });
+        res.send({ 'code': 400, 'message': err });
     });
 });
 
@@ -76,10 +72,10 @@ app.get('/delete', (req, res) => {
     client.v2.tweet(tweetId).then((val) => {
         console.log(val);
         console.log('Tweet has been deleted');
-        res.send(200, { 'message': 'Tweet has been deleted' });
+        res.send({ 'code': 200, 'message': 'Tweet has been deleted' });
     }).catch((err) => {
         console.log(err);
-        res.send(400, { 'message': err });
+        res.send({ 'code': 400, 'message': err });
     });
 
     
@@ -117,7 +113,7 @@ app.use(function (err, req, res, next) {
     });
 });
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 5000);
 
 var server = app.listen(app.get('port'), function () {
     debug('Express server listening on port ' + server.address().port);
