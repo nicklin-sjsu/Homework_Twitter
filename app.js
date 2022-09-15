@@ -69,7 +69,7 @@ app.get('/retrieve', (req, res) => {
 // Delete a tweet
 app.get('/delete', (req, res) => {
     const tweetId = req.query.tweetId;
-    client.v2.tweet(tweetId).then((val) => {
+    client.v2.deleteTweet(tweetId).then((val) => {
         console.log(val);
         console.log('Tweet has been deleted');
         res.send({ 'code': 200, 'message': 'Tweet has been deleted' });
@@ -77,8 +77,6 @@ app.get('/delete', (req, res) => {
         console.log(err);
         res.send({ 'code': 400, 'message': err });
     });
-
-    
 });
 
 
