@@ -66,6 +66,21 @@ app.get('/retrieve', (req, res) => {
     });
 });
 
+// Retrieve tweet by user
+app.get('/retrieve_by_user', (req, res) => {
+    const userId = req.query.userId;
+
+    client.v2.userTimeline(userId, { max_results: '10', exclude: 'replies' }).then((val) => {
+        const tweetList = val.data.data;
+        console.log(val);
+        res.send({ 'code': 200, 'message': tweetList });
+    }).catch((err) => {
+        console.log(err);
+        res.send({ 'code': 400, 'message': err });
+    });
+});
+// 1161949396449153024
+
 // Delete a tweet
 app.get('/delete', (req, res) => {
     const tweetId = req.query.tweetId;
