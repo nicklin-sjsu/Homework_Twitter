@@ -123,7 +123,7 @@ function App() {
             Submit
           </button>
           <br />
-          {retRes}
+          <p>{retRes}</p>
           <br />
 
         </form>
@@ -146,7 +146,7 @@ function App() {
             Submit
           </button>
           <br />
-          {delRes}
+          <p>{delRes}</p>
           <br />
 
         </form>
