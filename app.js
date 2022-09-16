@@ -46,7 +46,7 @@ app.get('/create', (req, res) => {
     client.v2.tweet(message).then((val) => {
         console.log(val);
         console.log("success");
-        res.send({ 'code': 200, 'message': 'Tweet created successfully'} );
+        res.send({ 'code': 200, 'message': val.data} );
     }).catch((err) => {
         console.log(err);
         res.send({ 'code': 400, 'message': err });
@@ -126,7 +126,7 @@ app.use(function (err, req, res, next) {
     });
 });
 
-app.set('port', process.env.PORT || 5000);
+app.set('port', process.env.PORT || 5001);
 
 var server = app.listen(app.get('port'), function () {
     debug('Express server listening on port ' + server.address().port);
