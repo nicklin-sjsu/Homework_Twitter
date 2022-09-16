@@ -46,7 +46,7 @@ app.get('/create', (req, res) => {
     client.v2.tweet(message).then((val) => {
         console.log(val);
         console.log("success");
-        res.send({ 'code': 200, 'message': 'Tweet created successfully'} );
+        res.send({ 'code': 200, 'message': val.data} );
     }).catch((err) => {
         console.log(err);
         res.send({ 'code': 400, 'message': err });
