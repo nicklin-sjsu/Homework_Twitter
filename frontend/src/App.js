@@ -1,34 +1,38 @@
 //import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 const axios = require('axios');
 
 function App() {
 
 
-  /*retreive from backend*/
+ /**
+  * Frontend Developed by Bryan and Kevin
+  */
+
+ /**
+  * Create useStates for API requests
+  */
 
   const [newTweet, setNewTweet] = useState("");
   const [createRes, setCreateRes] = useState("");
+  const [showCreateRes, setShowCreateRes] = useState("");
 
   const [delID, setDelID] = useState("");
   const [delRes, setDelRes] = useState("");
+  const [showDelRes, setShowDelRes] = useState("");
 
   const [retID, setRetID] = useState("");
   const [retRes, setRetRes] = useState("");
+  const [showRetRes, setShowRetRes] = useState("");
 
-  useEffect(() => {
-    /*fetch("/retrieve?tweetId=1570534434428026880").then(
-      response => response.json()
-    ).then(
-      data => {
-        setBackendData(data)
-      }
-    )
-    <p>{backendData.message}</p>
-    */
-  }, [])
+  /**
+   * Handle API request /create
+   * Takes a message parameter and creates a new tweet with message contensts.
+   * Checks for a successful tweet post and responds to the user with its contents
+   * or errors.
+   */
 
   const handleCreateTweet = async (event) => {
     event.preventDefault();
@@ -39,11 +43,23 @@ function App() {
         console.log(res);
         setNewTweet("");
         setCreateRes(JSON.stringify(res.data));
+        if(res.data.code == 200){
+          setShowCreateRes("\nTweet Successfully Created:\n" + res.data.message.text);
+        }
+        else{
+          setShowCreateRes("\nTweet Creation Unsuccessful\n" + "Response Code: " + res.data.code);
+        }
       })
       .catch(function (error) {
         console.log(error);
       });
   }
+
+  /**
+   * Handle API request /delete
+   * Takes a tweet ID and deletes the corresponding tweet.
+   * Checks for successful deletion and responds with either a success message or errors.
+   */
 
   const handleDeleteTweet = async (event) => {
     event.preventDefault();
@@ -54,11 +70,24 @@ function App() {
         console.log(res);
         setDelID("");
         setDelRes(JSON.stringify(res.data));
+        if(res.data.code == 200){
+          setShowDelRes("\nTweet Successfully Deleted\n");
+        }
+        else{
+          setShowDelRes("\nTweet Deletion Unsuccessful\n" + "Response Code: " + res.data.code);
+        }
+          
       })
       .catch(function (error) {
         console.log(error);
       });
   }
+
+  /**
+   * Handle API request /retrieve
+   * Takes a tweet ID and retrieves the tweets message contents.
+   * Checks for successful retrieval and responds with the tweet contents or an error message.
+   */
 
   const handleRetrieveTweet = async (event) => {
     event.preventDefault();
@@ -69,6 +98,12 @@ function App() {
         console.log(res);
         setRetID("");
         setRetRes(JSON.stringify(res.data));
+        if(res.data.code == 200){
+          setShowRetRes("\nTweet Text: \n" + res.data.message);
+        }
+        else{
+          setShowRetRes("\nTweet Retrieval Error\n" + res.data.code);
+        }
       })
       .catch(function (error) {
         console.log(error);
@@ -101,7 +136,10 @@ function App() {
             Submit
           </button>
           <br />
-          <p>{createRes}</p>
+          <div className='new-line'>
+            <p>{showCreateRes}</p>
+          </div>
+          
 
         </form>
 
@@ -123,7 +161,9 @@ function App() {
             Submit
           </button>
           <br />
-          <p>{retRes}</p>
+          <div className='new-line'>
+            <p>{showRetRes}</p>
+          </div>
           <br />
 
         </form>
@@ -146,7 +186,9 @@ function App() {
             Submit
           </button>
           <br />
-          <p>{delRes}</p>
+          <div className='new-line'>
+            <p>{showDelRes}</p>
+          </div>
           <br />
 
         </form>
