@@ -39,6 +39,7 @@ app.use('/users', users);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Written by: Hongru Lin
 // Create a tweet
 app.get('/create', (req, res) => {
     let message = req.query.message;
@@ -49,25 +50,29 @@ app.get('/create', (req, res) => {
         res.send({ 'code': 200, 'message': val.data} );
     }).catch((err) => {
         console.log(err);
-        res.send({ 'code': 400, 'message': err });
+        res.send({ 'code': 400, 'message': 'Invalid tweet text' });
     });
 });
 
+// Written by: Hongru Lin
 // Retrieve a tweet
 app.get('/retrieve', (req, res) => {
     const tweetId = req.query.tweetId;
+    console.log(tweetId);
     client.v2.singleTweet(tweetId).then((val) => {
         const tweetBody = val.data.text;
         console.log(val);
         res.send({ 'code': 200, 'message': tweetBody });
     }).catch((err) => {
         console.log(err);
-        res.send({ 'code': 400, 'message': err });
+        res.send({ 'code': 400, 'message': 'Invalid Tweet ID' });
     });
 });
 
+// Written by: Hongru Lin
 // Retrieve tweet by user
 app.get('/retrieve_by_user', (req, res) => {
+    // 1161949396449153024
     const userId = req.query.userId;
 
     client.v2.userTimeline(userId, { max_results: '10', exclude: 'replies' }).then((val) => {
@@ -76,11 +81,11 @@ app.get('/retrieve_by_user', (req, res) => {
         res.send({ 'code': 200, 'message': tweetList });
     }).catch((err) => {
         console.log(err);
-        res.send({ 'code': 400, 'message': err });
+        res.send({ 'code': 400, 'message': 'Invalid User ID' });
     });
 });
-// 1161949396449153024
 
+// Written by: Hongru Lin
 // Delete a tweet
 app.get('/delete', (req, res) => {
     const tweetId = req.query.tweetId;
@@ -90,7 +95,7 @@ app.get('/delete', (req, res) => {
         res.send({ 'code': 200, 'message': 'Tweet has been deleted' });
     }).catch((err) => {
         console.log(err);
-        res.send({ 'code': 400, 'message': err });
+        res.send({ 'code': 400, 'message': 'Invalid Tweet ID' });
     });
 });
 
