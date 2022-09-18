@@ -39,7 +39,7 @@ app.use('/users', users);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Written by: Hongru Lin
+// Written by: Hongru Lin and Ria
 // Create a tweet
 app.get('/create', (req, res) => {
     let message = req.query.message;
@@ -47,14 +47,13 @@ app.get('/create', (req, res) => {
     client.v2.tweet(message).then((val) => {
         console.log(val);
         console.log("success");
-        res.send({ 'code': 200, 'message': val.data} );
+        res.send({ 'code': 200, 'message': 'Tweet created successfully'} );
     }).catch((err) => {
         console.log(err);
         res.send({ 'code': 400, 'message': 'Invalid tweet text' });
     });
 });
 
-// Written by: Hongru Lin
 // Retrieve a tweet
 app.get('/retrieve', (req, res) => {
     const tweetId = req.query.tweetId;
@@ -69,7 +68,6 @@ app.get('/retrieve', (req, res) => {
     });
 });
 
-// Written by: Hongru Lin
 // Retrieve tweet by user
 app.get('/retrieve_by_user', (req, res) => {
     // 1161949396449153024
@@ -85,7 +83,6 @@ app.get('/retrieve_by_user', (req, res) => {
     });
 });
 
-// Written by: Hongru Lin
 // Delete a tweet
 app.get('/delete', (req, res) => {
     const tweetId = req.query.tweetId;

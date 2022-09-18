@@ -4,42 +4,59 @@ const expect = chai.expect
 const baseUrl = "localhost:5001"
 chai.use(chaiHttp);       //testing using mocha
 
-describe("tweet Test", function(){
+// Written by Hongru Lin and Monish
+describe("Tweet Test", function(){
     //test tweet retrieval
-    it('retrieved tweet', function(done) {
+    it('Retrieve tweet success', function(done) {
         chai.request(baseUrl)
         .get('/retrieve')
-        .query({ tweetId: '1571290152634576902' })
+        .query({ tweetId: '1571292369370357765' })
         .end(function (err, res) {
-            console.log(res.status);
-            console.log(res.text);
-            console.log("succesfully retrieved and tested")
+            expect(res.status).to.equal(200);
+            let result = JSON.parse(res.text);
+            expect(result.code).to.equal(200);
+            expect(result.message).to.equal("tweet api test");
+            done();
+        });
+    });
+    
+    it('Retrieve tweet fail', function(done) {
+        chai.request(baseUrl)
+        .get('/retrieve')
+        .query({ tweetId: '12345' })
+        .end(function (err, res) {
+            expect(res.status).to.equal(200);
+            let result = JSON.parse(res.text);
+            expect(result.code).to.equal(400);
+            expect(result.message).to.equal("Invalid Tweet ID");
             done();
         });
     });
 
-    //test tweet delete
-    it('to delete tweet', function(done) {
+    // test tweet delete
+    it('Delete tweet success', function(done) {
         chai.request(baseUrl)
         .get('/delete')
-        .query({ tweetId: '1571290152634576902' })
+        .query({ tweetId: '1571372455293497347' })
         .end(function (err, res) {
-            console.log(res.status);
-            console.log(res.text);
-            console.log("deleted successfully and tested")
+            expect(res.status).to.equal(200);
+            let result = JSON.parse(res.text);
+            expect(result.code).to.equal(200);
+            expect(result.message).to.equal("Tweet has been deleted");
             done();
         });
     });
+
     //test tweet creation
-    
-    it('create tweet', function(done) {
+    it('Create tweet', function(done) {
         chai.request(baseUrl)
         .get('/create')
         .query({ message: 'twitter api test for project' })
         .end(function (err, res) {
-            console.log(res.status);
-            twid=console.log(res.val);
-            console.log("successfully created tweet and tested");
+            expect(res.status).to.equal(200);
+            let result = JSON.parse(res.text);
+            expect(result.code).to.equal(200);
+            expect(result.message).to.equal("Tweet created successfully");
             done();
         });
     });
